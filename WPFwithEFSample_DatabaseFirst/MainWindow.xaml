@@ -1,0 +1,31 @@
+﻿<Window x:Class="WPFwithEFSample_DatabaseFirst.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFwithEFSample_DatabaseFirst"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
+    <Window.Resources>
+        <CollectionViewSource x:Key="categoriesViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Categories}}"/>
+        
+        <CollectionViewSource x:Key="categoriesProductsViewSource" Source="{Binding Products, Source={StaticResource categoriesViewSource}}"/>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource categoriesViewSource}" Loaded="Window_Loaded">
+        <DataGrid x:Name="categoriesDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" RowDetailsVisibilityMode="VisibleWhenSelected" Margin="10,10,390,281">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="categoryIdColumn" Binding="{Binding CategoryId}" Header="Category Id" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Name}" Header="Name" Width="SizeToHeader"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid x:Name="productsDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding Source={StaticResource categoriesProductsViewSource}}" RowDetailsVisibilityMode="VisibleWhenSelected" Margin="10,158,390,102">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="categoryIdColumn1" Binding="{Binding CategoryId}" Header="Category Id" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="nameColumn1" Binding="{Binding Name}" Header="Name" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="productIdColumn" Binding="{Binding ProductId}" Header="Product Id" Width="SizeToHeader"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Content="Save" HorizontalAlignment="Left" Margin="14,365,0,0" VerticalAlignment="Top" Width="396" Height="40" Click="Button_Click"/>
+
+    </Grid>
+</Window>
